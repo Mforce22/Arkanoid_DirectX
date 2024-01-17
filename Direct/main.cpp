@@ -244,10 +244,16 @@ void InitGraphics()
     float spacerY = spacerX / 2.f;
 
 
-    vector<VERTEX> vertices = {};
+    //vector<VERTEX> vertices = {};
 
     float y = 1.0f;
     float x = -1.0f;
+    
+    int index = 0;
+
+
+    VERTEX OurVertices[totalVertex];
+
     for (int i = 0; i < nRow; i++) {
         for (int j = 0; j < nCol; j++) {
 
@@ -258,29 +264,27 @@ void InitGraphics()
 
 
             //first triangle
-	        vertices.push_back({ x, y, 0.0f, D3DXCOLOR(R, G, B, 1.0f) });
-            vertices.push_back({ x + spacerX, y, 0.0f, D3DXCOLOR(R, G, B, 1.0f) });
-            vertices.push_back({ x, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 1.0f) });
+            OurVertices[index] = { x, y, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            index++;
+            OurVertices[index] = { x + spacerX, y, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            index++;
+            OurVertices[index] = { x, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            index++;
 
             //second triangle
-            vertices.push_back({ x + spacerX, y, 0.0f, D3DXCOLOR(R, G, B, 1.0f) });
-            vertices.push_back({ x + spacerX, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 1.0f) });
-            vertices.push_back({ x, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 1.0f) });
+            OurVertices[index] = { x + spacerX, y, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            index++;
+            OurVertices[index] = { x + spacerX, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            index++;
+            OurVertices[index] = { x, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            index++;
 
             x = x + spacerX;
-             
-		}
+
+        }
         y -= spacerY;
-		x = -1;
-	}
-
-
-    VERTEX OurVertices[totalVertex];
-
-    for (int i = 0; i < totalVertex; i++) {
-        OurVertices[i] = vertices[i];
+        x = -1;
     }
-
     // create a triangle using the VERTEX struct
     /*VERTEX OurVertices[] =
     {
