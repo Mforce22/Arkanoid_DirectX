@@ -38,6 +38,10 @@ ID3D11Buffer* pVBuffer;                // the pointer to the vertex buffer
 // a struct to define a single vertex
 struct VERTEX { FLOAT X, Y, Z; D3DXCOLOR Color; };
 
+//global variables
+VERTEX OurVertices[totalVertex];
+vector<bool> isBlockActive(total, true);
+
 // function prototypes
 void InitD3D(HWND hWnd);    // sets up and initializes Direct3D
 void RenderFrame(void);     // renders a single frame
@@ -208,8 +212,18 @@ void RenderFrame(void)
     // select which primtive type we are using
     devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+    int currentVertex = 0;
+    for (bool b : isBlockActive) {
+        if (b) {
+            devcon->Draw(6, currentVertex);
+        }
+
+        currentVertex += 6;
+    }
+
+
     // draw the vertex buffer to the back buffer
-    devcon->Draw(totalVertex, 0);
+    //devcon->Draw(totalVertex, 0);
     //devcon->Draw(3, 3);
 
     // switch the back buffer and the front buffer
@@ -252,7 +266,7 @@ void InitGraphics()
     int index = 0;
 
 
-    VERTEX OurVertices[totalVertex];
+    
 
     for (int i = 0; i < nRow; i++) {
         for (int j = 0; j < nCol; j++) {
@@ -264,19 +278,19 @@ void InitGraphics()
 
 
             //first triangle
-            OurVertices[index] = { x, y, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            OurVertices[index] = { x, y, 0.0f, D3DXCOLOR(R, G, B, 0.0f) };
             index++;
-            OurVertices[index] = { x + spacerX, y, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            OurVertices[index] = { x + spacerX, y, 0.0f, D3DXCOLOR(R, G, B, 0.0f) };
             index++;
-            OurVertices[index] = { x, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            OurVertices[index] = { x, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 0.0f) };
             index++;
 
             //second triangle
-            OurVertices[index] = { x + spacerX, y, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            OurVertices[index] = { x + spacerX, y, 0.0f, D3DXCOLOR(R, G, B, 0.0f) };
             index++;
-            OurVertices[index] = { x + spacerX, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            OurVertices[index] = { x + spacerX, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 0.0f) };
             index++;
-            OurVertices[index] = { x, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 1.0f) };
+            OurVertices[index] = { x, y - spacerY, 0.0f, D3DXCOLOR(R, G, B, 0.0f) };
             index++;
 
             x = x + spacerX;
@@ -285,6 +299,9 @@ void InitGraphics()
         y -= spacerY;
         x = -1;
     }
+
+    //VERTEX v = { 0.0f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) };
+    //float test = v.Color.a;
     // create a triangle using the VERTEX struct
     /*VERTEX OurVertices[] =
     {
