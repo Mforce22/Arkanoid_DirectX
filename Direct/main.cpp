@@ -7,6 +7,8 @@
 #include <vector>
 #include <iostream>
 
+#include "Ball.h"
+
 using namespace std;
 
 
@@ -23,7 +25,7 @@ using namespace std;
 #define nRow 6
 #define nCol 10
 #define total nRow*nCol
-#define totalVertex 3*total*2
+#define totalVertex (3*total*2)+6
 
 // global declarations
 IDXGISwapChain* swapchain;             // the pointer to the swap chain interface
@@ -36,11 +38,14 @@ ID3D11PixelShader* pPS;                // the pointer to the pixel shader
 ID3D11Buffer* pVBuffer;                // the pointer to the vertex buffer
 
 // a struct to define a single vertex
-struct VERTEX { FLOAT X, Y, Z; D3DXCOLOR Color; };
+//struct VERTEX { FLOAT X, Y, Z; D3DXCOLOR Color; };
 
 //global variables
 VERTEX OurVertices[totalVertex];
 vector<bool> isBlockActive(total, true);
+
+//Ball
+Ball* ball;
 
 // function prototypes
 void InitD3D(HWND hWnd);    // sets up and initializes Direct3D
@@ -48,6 +53,7 @@ void RenderFrame(void);     // renders a single frame
 void CleanD3D(void);        // closes Direct3D and releases memory
 void InitGraphics(void);    // creates the shape to render
 void InitPipeline(void);    // loads and prepares the shaders
+void UpdateGraphics(void);  // updates the shape to render
 
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -213,6 +219,18 @@ void RenderFrame(void)
     devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     int currentVertex = 0;
+
+    ball->Update();
+
+    //update the graphics
+    UpdateGraphics();
+
+
+
+    //draw the ball
+    devcon->Draw(6, currentVertex);
+    currentVertex += 6;
+
     for (bool b : isBlockActive) {
         if (b) {
             devcon->Draw(6, currentVertex);
@@ -266,7 +284,25 @@ void InitGraphics()
     int index = 0;
 
 
-    
+    //add the ball
+    OurVertices[index] = { 0.00f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.1f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.0f, -0.1f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+
+    OurVertices[index] = { 0.1f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.1f, -0.1f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.0f, -0.1f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+
+    ball = new Ball(OurVertices[0], OurVertices[1], OurVertices[2], OurVertices[4]);
+    ball ->SetXSpeed(0.0001f);
+    ball->SetYSpeed(0.0f);
+
 
     for (int i = 0; i < nRow; i++) {
         for (int j = 0; j < nCol; j++) {
@@ -300,6 +336,8 @@ void InitGraphics()
         x = -1;
     }
 
+    
+
     //VERTEX v = { 0.0f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) };
     //float test = v.Color.a;
     // create a triangle using the VERTEX struct
@@ -330,7 +368,7 @@ void InitGraphics()
     ZeroMemory(&bd, sizeof(bd));
 
     bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-    bd.ByteWidth = sizeof(VERTEX) * totalVertex;             // size is the VERTEX struct * 3
+    bd.ByteWidth = sizeof(VERTEX) * (totalVertex + 6);             // size is the VERTEX struct * 3
     bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
@@ -349,6 +387,41 @@ void InitGraphics()
     // unmap the buffer
     devcon->Unmap(pVBuffer, NULL);       
 }
+
+void UpdateGraphics()
+{
+    //update the first 6 vertices of the buffer
+    OurVertices[0] = ball->GetTopLeftVertex();
+    OurVertices[1] = ball->GetTopRightVertex();
+    OurVertices[2] = ball->GetBottomLeftVertex();
+
+    OurVertices[3] = ball->GetTopRightVertex();
+    OurVertices[4] = ball->GetBottomRightVertex();
+    OurVertices[5] = ball->GetBottomLeftVertex();
+
+    D3D11_BUFFER_DESC bd;
+    ZeroMemory(&bd, sizeof(bd));
+
+    bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
+    bd.ByteWidth = sizeof(VERTEX) * (totalVertex + 6);             // size is the VERTEX struct * 3
+    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
+    bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+
+    //dev->CreateBuffer(&bd, NULL, &pVBuffer);       // create the buffer
+
+
+    // copy the vertices into the buffer
+    D3D11_MAPPED_SUBRESOURCE ms;
+    // map the buffer
+    devcon->Map(pVBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
+    // copy the data
+    memcpy(ms.pData, OurVertices, sizeof(OurVertices));
+    // unmap the buffer
+    devcon->Unmap(pVBuffer, NULL);
+
+    cout << "UpdateGraphics" << endl;
+}
+
 
 
 // this function loads and prepares the shaders
