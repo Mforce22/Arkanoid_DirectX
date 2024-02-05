@@ -15,12 +15,21 @@ void Ball::Update() {
 	//check if there is a collision with the walls
 	float xCorrection = 0.0f;
 
+	float yCorrection = 0.0f;
+
 
 	if (topLeftVertex.X + xSpeed <= -1) {
 		xCorrection = topLeftVertex.X + xSpeed + 1;
 	}
 	else if (topRightVertex.X + xSpeed >= 1) {
 		xCorrection = topRightVertex.X + xSpeed - 1;
+	}
+
+	if (topLeftVertex.Y + ySpeed >= 1) {
+		yCorrection = topLeftVertex.Y + ySpeed - 1;
+	}
+	else if (bottomLeftVertex.Y + ySpeed <= -1) {
+		yCorrection = bottomLeftVertex.Y + ySpeed + 1;
 	}
 
 
@@ -35,6 +44,9 @@ void Ball::Update() {
 
 	if (xCorrection != 0.0f) {
 		xSpeed = -xSpeed;
+	}
+	if (yCorrection != 0.0f) {
+		ySpeed = -ySpeed;
 	}
 
 	/*topLeftVertex = { 0.2, 0.1 , 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) };

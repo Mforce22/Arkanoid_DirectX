@@ -301,7 +301,7 @@ void InitGraphics()
 
     ball = new Ball(OurVertices[0], OurVertices[1], OurVertices[2], OurVertices[4]);
     ball ->SetXSpeed(0.0001f);
-    ball->SetYSpeed(0.0f);
+    ball ->SetYSpeed(0.0001f);
 
 
     for (int i = 0; i < nRow; i++) {
