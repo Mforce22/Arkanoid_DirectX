@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "Ball.h"
+#include "Racket.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ using namespace std;
 #define nRow 6
 #define nCol 10
 #define total nRow*nCol
-#define totalVertex (3*total*2)+6
+#define totalVertex (3*total*2)+12
 
 // global declarations
 IDXGISwapChain* swapchain;             // the pointer to the swap chain interface
@@ -46,6 +47,9 @@ vector<bool> isBlockActive(total, true);
 
 //Ball
 Ball* ball;
+
+//Racket
+Racket* racket;
 
 // function prototypes
 void InitD3D(HWND hWnd);    // sets up and initializes Direct3D
@@ -221,6 +225,7 @@ void RenderFrame(void)
     int currentVertex = 0;
 
     ball->Update();
+    racket ->Update();
 
     //update the graphics
     UpdateGraphics();
@@ -228,6 +233,10 @@ void RenderFrame(void)
 
 
     //draw the ball
+    devcon->Draw(6, currentVertex);
+    currentVertex += 6;
+
+    //draw the racket
     devcon->Draw(6, currentVertex);
     currentVertex += 6;
 
@@ -303,6 +312,24 @@ void InitGraphics()
     ball ->SetXSpeed(0.0001f);
     ball ->SetYSpeed(0.0001f);
 
+    //add the racket
+    OurVertices[index] = { -0.2f, -0.9f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.2f, -0.9f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { -0.2f, -1.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+
+    OurVertices[index] = { 0.2f, -0.9f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.2f, -1.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { -0.2f, -1.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+
+    racket = new Racket(OurVertices[index - 6], OurVertices[index - 5], OurVertices[index - 4], OurVertices[index - 2]);
+    racket->SetXSpeed(0.00015f);
+
 
     for (int i = 0; i < nRow; i++) {
         for (int j = 0; j < nCol; j++) {
@@ -368,7 +395,7 @@ void InitGraphics()
     ZeroMemory(&bd, sizeof(bd));
 
     bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-    bd.ByteWidth = sizeof(VERTEX) * (totalVertex + 6);             // size is the VERTEX struct * 3
+    bd.ByteWidth = sizeof(VERTEX) * (totalVertex + 12);             // size is the VERTEX struct * 3
     bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
@@ -398,6 +425,17 @@ void UpdateGraphics()
     OurVertices[3] = ball->GetTopRightVertex();
     OurVertices[4] = ball->GetBottomRightVertex();
     OurVertices[5] = ball->GetBottomLeftVertex();
+
+    //update the vertex of the racket
+    OurVertices[6] = racket->GetTopLeftVertex();
+    OurVertices[7] = racket->GetTopRightVertex();
+    OurVertices[8] = racket->GetBottomLeftVertex();
+
+    OurVertices[9] = racket->GetTopRightVertex();
+    OurVertices[10] = racket->GetBottomRightVertex();
+    OurVertices[11] = racket->GetBottomLeftVertex();
+    
+
 
     D3D11_BUFFER_DESC bd;
     ZeroMemory(&bd, sizeof(bd));

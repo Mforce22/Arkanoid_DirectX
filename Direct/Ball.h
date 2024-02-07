@@ -1,9 +1,8 @@
 #pragma once
 #include <D3DX10.h>
+#include "Vertex.h"
 
-extern struct VERTEX { FLOAT X, Y, Z; D3DXCOLOR Color;
-VERTEX() = default;
-};
+
 
 class Ball
 {
