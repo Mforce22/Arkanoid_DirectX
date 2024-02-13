@@ -325,14 +325,14 @@ void InitGraphics()
     //add the ball
     OurVertices[index] = { 0.00f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
-    OurVertices[index] = { 0.1f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    OurVertices[index] = { 0.075f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
     OurVertices[index] = { 0.0f, -0.1f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
 
-    OurVertices[index] = { 0.1f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    OurVertices[index] = { 0.075f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
-    OurVertices[index] = { 0.1f, -0.1f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    OurVertices[index] = { 0.075f, -0.1f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
     OurVertices[index] = { 0.0f, -0.1f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
