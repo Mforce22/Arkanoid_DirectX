@@ -10,7 +10,7 @@ public:
 	
 	Ball(VERTEX topLeftVertex, VERTEX topRightVertex, VERTEX bottomLeftVertex, VERTEX bottomRightVertex);
 	~Ball();
-	void Update();
+	bool Update();
 	VERTEX GetTopLeftVertex();
 	VERTEX GetTopRightVertex();
 	VERTEX GetBottomLeftVertex();

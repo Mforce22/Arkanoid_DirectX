@@ -51,6 +51,9 @@ Ball* ball;
 //Racket
 Racket* racket;
 
+//alive
+bool alive = true;
+
 // function prototypes
 void InitD3D(HWND hWnd);    // sets up and initializes Direct3D
 void RenderFrame(void);     // renders a single frame
@@ -109,7 +112,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     MSG msg;
 
-    while (TRUE)
+    
+
+    while (alive)
     {
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
@@ -125,6 +130,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     // clean up DirectX and COM
     CleanD3D();
+
+    //delete racket and ball
+    delete racket;
+    delete ball;
+
 
     return msg.wParam;
 }
@@ -225,7 +235,7 @@ void RenderFrame(void)
 
     int currentVertex = 0;
 
-    ball->Update();
+    alive = !ball->Update();
     racket ->Update();
 
     ball->CheckCollision(racket->GetTopLeftVertex(), racket->GetTopRightVertex(), racket->GetBottomLeftVertex(), racket->GetBottomRightVertex());
@@ -243,6 +253,7 @@ void RenderFrame(void)
     devcon->Draw(6, currentVertex);
     currentVertex += 6;
     int count = 0;
+    int victoryCount = 0;
 
     for (bool b : isBlockActive) {
         if (b) {
@@ -254,10 +265,17 @@ void RenderFrame(void)
             }
             
         }
+        else {
+			victoryCount++;
+		}
 
         currentVertex += 6;
         count++;
     }
+
+    if (victoryCount == total) {
+		alive = false;
+	}
 
 
     // draw the vertex buffer to the back buffer

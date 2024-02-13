@@ -10,7 +10,8 @@ Ball::Ball(VERTEX topLeftVertex, VERTEX topRightVertex, VERTEX bottomLeftVertex,
 Ball::~Ball() {
 }
 
-void Ball::Update() {
+//return if the match has ended
+bool Ball::Update() {
 
 	//check if there is a collision with the walls
 	float xCorrection = 0.0f;
@@ -30,6 +31,7 @@ void Ball::Update() {
 	}
 	else if (bottomLeftVertex.Y + ySpeed <= -1) {
 		yCorrection = bottomLeftVertex.Y + ySpeed + 1;
+		return true;
 	}
 
 
@@ -48,6 +50,8 @@ void Ball::Update() {
 	if (yCorrection != 0.0f) {
 		ySpeed = -ySpeed;
 	}
+
+	return false;
 
 	/*topLeftVertex = { 0.2, 0.1 , 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) };
 	topRightVertex = { 0.3, 0.1, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) };
