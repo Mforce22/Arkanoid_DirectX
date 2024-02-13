@@ -19,6 +19,7 @@ public:
 	void SetXSpeed(float xSpeed);
 	void SetYSpeed(float ySpeed);
 
+	bool CheckCollision(VERTEX boxTopLeftVertex, VERTEX boxTopRightVertex, VERTEX boxBottomLeftVertex, VERTEX boxBottomRightVertex);
 	
 	
 private:

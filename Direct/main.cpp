@@ -65,6 +65,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 // the entry point for any Windows program
 int WINAPI WinMain(HINSTANCE hInstance,
+    
     HINSTANCE hPrevInstance,
     LPSTR lpCmdLine,
     int nCmdShow)
@@ -227,6 +228,8 @@ void RenderFrame(void)
     ball->Update();
     racket ->Update();
 
+    ball->CheckCollision(racket->GetTopLeftVertex(), racket->GetTopRightVertex(), racket->GetBottomLeftVertex(), racket->GetBottomRightVertex());
+
     //update the graphics
     UpdateGraphics();
 
@@ -239,13 +242,21 @@ void RenderFrame(void)
     //draw the racket
     devcon->Draw(6, currentVertex);
     currentVertex += 6;
+    int count = 0;
 
     for (bool b : isBlockActive) {
         if (b) {
-            devcon->Draw(6, currentVertex);
+            if (ball->CheckCollision(OurVertices[currentVertex], OurVertices[currentVertex + 1], OurVertices[currentVertex + 2], OurVertices[currentVertex + 4])) {
+                isBlockActive[count] = false;
+            }
+            else {
+                devcon->Draw(6, currentVertex);
+            }
+            
         }
 
         currentVertex += 6;
+        count++;
     }
 
 

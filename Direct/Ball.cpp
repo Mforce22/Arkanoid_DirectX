@@ -78,3 +78,45 @@ void Ball::SetXSpeed(float xSpeed) {
 void Ball::SetYSpeed(float ySpeed) {
 	this->ySpeed = ySpeed;
 }
+
+bool Ball::CheckCollision(VERTEX boxTopLeftVertex, VERTEX boxTopRightVertex, VERTEX boxBottomLeftVertex, VERTEX boxBottomRightVertex) {
+
+	//check the y collision
+	if (topLeftVertex.Y >= boxBottomLeftVertex.Y && topLeftVertex.Y <= boxTopLeftVertex.Y && topLeftVertex.X >= boxTopLeftVertex.X && topLeftVertex.X <= boxTopRightVertex.X && ySpeed > 0) {
+		ySpeed = -ySpeed;
+		return true;
+	}
+	else if (topRightVertex.Y >= boxBottomRightVertex.Y && topRightVertex.Y <= boxTopRightVertex.Y && topRightVertex.X >= boxTopLeftVertex.X && topRightVertex.X <= boxTopRightVertex.X && ySpeed > 0) {
+		ySpeed = -ySpeed;
+		return true;
+	}
+	else if (bottomLeftVertex.Y <= boxTopLeftVertex.Y && bottomLeftVertex.Y >= boxBottomLeftVertex.Y && bottomLeftVertex.X >= boxTopLeftVertex.X && bottomLeftVertex.X <= boxTopRightVertex.X && ySpeed < 0) {
+		ySpeed = -ySpeed;
+		return true;
+	}
+	else if (bottomRightVertex.Y <= boxTopRightVertex.Y && bottomRightVertex.Y >= boxBottomRightVertex.Y && bottomRightVertex.X >= boxTopLeftVertex.X && bottomRightVertex.X <= boxTopRightVertex.X && ySpeed < 0) {
+		ySpeed = -ySpeed;
+		return true;
+	}
+
+	//check the x collision
+	if (topLeftVertex.X <= boxTopRightVertex.X && topLeftVertex.X >= boxTopLeftVertex.X && topLeftVertex.Y >= boxBottomLeftVertex.Y && topLeftVertex.Y <= boxTopLeftVertex.Y && xSpeed < 0) {
+		xSpeed = -xSpeed;
+		return true;
+	}
+	else if (topRightVertex.X >= boxTopLeftVertex.X && topRightVertex.X <= boxTopRightVertex.X && topRightVertex.Y >= boxBottomRightVertex.Y && topRightVertex.Y <= boxTopRightVertex.Y && xSpeed < 0) {
+		xSpeed = -xSpeed;
+		return true;
+	}
+	else if (bottomLeftVertex.X <= boxBottomRightVertex.X && bottomLeftVertex.X >= boxBottomLeftVertex.X && bottomLeftVertex.Y >= boxBottomLeftVertex.Y && bottomLeftVertex.Y <= boxTopLeftVertex.Y && xSpeed > 0) {
+		xSpeed = -xSpeed;
+		return true;
+	}
+	else if (bottomRightVertex.X >= boxBottomLeftVertex.X && bottomRightVertex.X <= boxBottomRightVertex.X && bottomRightVertex.Y >= boxBottomRightVertex.Y && bottomRightVertex.Y <= boxTopRightVertex.Y && xSpeed > 0) {
+		xSpeed = -xSpeed;
+		return true;
+	}
+
+	return false;
+
+}
