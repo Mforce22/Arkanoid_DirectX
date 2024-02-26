@@ -12,6 +12,10 @@
 
 using namespace std;
 
+//debug
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+
 
 // include the Direct3D Library file
 #pragma comment (lib, "d3d11.lib")
@@ -135,6 +139,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
     delete racket;
     delete ball;
 
+    //bool checkLeaks = _CrtDumpMemoryLeaks();
+    //printf("checkLeaks: %d\n", checkLeaks);
 
     return msg.wParam;
 }

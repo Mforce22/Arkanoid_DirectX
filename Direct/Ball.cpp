@@ -108,11 +108,11 @@ bool Ball::CheckCollision(VERTEX boxTopLeftVertex, VERTEX boxTopRightVertex, VER
 		xSpeed = -xSpeed;
 		return true;
 	}
-	else if (topRightVertex.X >= boxTopLeftVertex.X && topRightVertex.X <= boxTopRightVertex.X && topRightVertex.Y >= boxBottomRightVertex.Y && topRightVertex.Y <= boxTopRightVertex.Y && xSpeed < 0) {
+	else if (topRightVertex.X >= boxTopLeftVertex.X && topRightVertex.X <= boxTopRightVertex.X && topRightVertex.Y >= boxBottomRightVertex.Y && topRightVertex.Y <= boxTopRightVertex.Y && xSpeed > 0) {
 		xSpeed = -xSpeed;
 		return true;
 	}
-	else if (bottomLeftVertex.X <= boxBottomRightVertex.X && bottomLeftVertex.X >= boxBottomLeftVertex.X && bottomLeftVertex.Y >= boxBottomLeftVertex.Y && bottomLeftVertex.Y <= boxTopLeftVertex.Y && xSpeed > 0) {
+	else if (bottomLeftVertex.X <= boxBottomRightVertex.X && bottomLeftVertex.X >= boxBottomLeftVertex.X && bottomLeftVertex.Y >= boxBottomLeftVertex.Y && bottomLeftVertex.Y <= boxTopLeftVertex.Y && xSpeed < 0) {
 		xSpeed = -xSpeed;
 		return true;
 	}
