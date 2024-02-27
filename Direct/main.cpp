@@ -47,7 +47,7 @@ ID3D11Buffer* pVBuffer;                // the pointer to the vertex buffer
 
 //global variables
 VERTEX OurVertices[totalVertex];
-vector<bool> isBlockActive(total, true);
+bool isBlockActive[total];
 
 //Ball
 Ball* ball;
@@ -139,7 +139,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
     delete racket;
     delete ball;
 
-    //bool checkLeaks = _CrtDumpMemoryLeaks();
+    //check if the program has memory leaks
+    bool checkLeaks = _CrtDumpMemoryLeaks();
     //printf("checkLeaks: %d\n", checkLeaks);
 
     return msg.wParam;
@@ -326,6 +327,11 @@ void InitGraphics()
     float x = -1.0f;
     
     int index = 0;
+
+    //initialize bool array to true
+    for (int i = 0; i < total; i++) {
+		isBlockActive[i] = true;
+	}
 
 
     //add the ball
