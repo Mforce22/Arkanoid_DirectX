@@ -1,18 +1,9 @@
 **CONTROLS**
 
-**A or Left Arrow**
-to move the racket left
-
-**D or Right Arrow**
-to move the racket right
-
-**R**
-to restart the game
-
-**ESC**
-to exit the game
-
-
+-**A or Left Arrow** to move the racket left
+-**D or Right Arrow** to move the racket right
+-**R** to restart the game
+-**ESC** to exit the game
 
 **RULES**
 
