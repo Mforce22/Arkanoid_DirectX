@@ -65,6 +65,7 @@ void CleanD3D(void);        // closes Direct3D and releases memory
 void InitGraphics(void);    // creates the shape to render
 void InitPipeline(void);    // loads and prepares the shaders
 void UpdateGraphics(void);  // updates the shape to render
+void ResetGame(void);       // resets the game
 
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -281,9 +282,13 @@ void RenderFrame(void)
     }
 
     if (victoryCount == total) {
-		alive = false;
+		//alive = false;
+        ResetGame();
 	}
 
+    /*if (GetKeyState('R') & 0x8000) {
+		ResetGame();
+	}*/
 
     // draw the vertex buffer to the back buffer
     //devcon->Draw(totalVertex, 0);
@@ -337,16 +342,16 @@ void InitGraphics()
     //add the ball
     OurVertices[index] = { 0.00f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
-    OurVertices[index] = { 0.075f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    OurVertices[index] = { 0.0375f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
-    OurVertices[index] = { 0.0f, -0.1f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    OurVertices[index] = { 0.0f, -0.05f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
 
-    OurVertices[index] = { 0.075f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    OurVertices[index] = { 0.0375f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
-    OurVertices[index] = { 0.075f, -0.1f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    OurVertices[index] = { 0.0375f, -0.05f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
-    OurVertices[index] = { 0.0f, -0.1f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    OurVertices[index] = { 0.0f, -0.05f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
     index++;
 
     ball = new Ball(OurVertices[0], OurVertices[1], OurVertices[2], OurVertices[4]);
@@ -528,4 +533,53 @@ void InitPipeline()
 
     dev->CreateInputLayout(ied, 2, VS->GetBufferPointer(), VS->GetBufferSize(), &pLayout);
     devcon->IASetInputLayout(pLayout);
+}
+
+void ResetGame() {
+    int index = 0;
+
+    //initialize bool array to true
+    for (int i = 0; i < total; i++) {
+        isBlockActive[i] = true;
+    }
+
+
+    //add the ball
+    OurVertices[index] = { 0.00f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.0375f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.0f, -0.05f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+
+    OurVertices[index] = { 0.0375f, 0.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.0375f, -0.05f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.0f, -0.05f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+
+    delete ball;
+    ball = new Ball(OurVertices[0], OurVertices[1], OurVertices[2], OurVertices[4]);
+    ball->SetXSpeed(0.0001f);
+    ball->SetYSpeed(0.0001f);
+
+    //add the racket
+    OurVertices[index] = { -0.2f, -0.9f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.2f, -0.9f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { -0.2f, -1.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+
+    OurVertices[index] = { 0.2f, -0.9f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { 0.2f, -1.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+    OurVertices[index] = { -0.2f, -1.0f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
+    index++;
+
+    delete racket;
+    racket = new Racket(OurVertices[index - 6], OurVertices[index - 5], OurVertices[index - 4], OurVertices[index - 2]);
+    racket->SetXSpeed(0.00015f);
 }
