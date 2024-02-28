@@ -32,6 +32,11 @@ using namespace std;
 #define total nRow*nCol
 #define totalVertex (3*total*2)+12
 
+//define speed
+#define yBallSpeed 0.00012f
+#define xBallSpeed 0.0001f
+#define racketSpeed 0.00015f
+
 // global declarations
 IDXGISwapChain* swapchain;             // the pointer to the swap chain interface
 ID3D11Device* dev;                     // the pointer to our Direct3D device interface
@@ -358,8 +363,8 @@ void InitGraphics()
     index++;
 
     ball = new Ball(OurVertices[0], OurVertices[1], OurVertices[2], OurVertices[4]);
-    ball ->SetXSpeed(0.0001f);
-    ball ->SetYSpeed(0.0001f);
+    ball ->SetXSpeed(xBallSpeed);
+    ball ->SetYSpeed(-yBallSpeed);
 
     //add the racket
     OurVertices[index] = { -0.2f, -0.9f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
@@ -377,7 +382,7 @@ void InitGraphics()
     index++;
 
     racket = new Racket(OurVertices[index - 6], OurVertices[index - 5], OurVertices[index - 4], OurVertices[index - 2]);
-    racket->SetXSpeed(0.00015f);
+    racket->SetXSpeed(racketSpeed);
 
 
     for (int i = 0; i < nRow; i++) {
@@ -564,8 +569,8 @@ void ResetGame() {
 
     delete ball;
     ball = new Ball(OurVertices[0], OurVertices[1], OurVertices[2], OurVertices[4]);
-    ball->SetXSpeed(0.0001f);
-    ball->SetYSpeed(0.0001f);
+    ball->SetXSpeed(xBallSpeed);
+    ball->SetYSpeed(-yBallSpeed);
 
     //add the racket
     OurVertices[index] = { -0.2f, -0.9f, 0.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f) };
@@ -584,5 +589,5 @@ void ResetGame() {
 
     delete racket;
     racket = new Racket(OurVertices[index - 6], OurVertices[index - 5], OurVertices[index - 4], OurVertices[index - 2]);
-    racket->SetXSpeed(0.00015f);
+    racket->SetXSpeed(racketSpeed);
 }

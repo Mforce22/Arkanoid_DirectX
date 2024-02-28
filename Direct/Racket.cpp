@@ -14,7 +14,7 @@ void Racket::Update() {
 	//check if there is a collision with the walls
 	//float xCorrection = 0.0f;
 	//float yCorrection = 0.0f;
-	if (GetKeyState('A') & 0x8000)/*Check if high-order bit is set (1 << 15)*/
+	if ((GetKeyState('A') & 0x8000) || (GetKeyState(VK_LEFT) & 0x8000))/*Check if high-order bit is set (1 << 15)*/
 	{
 		//move left
 		if (topLeftVertex.X > -1.0f) {
@@ -25,7 +25,7 @@ void Racket::Update() {
 		}
 		
 	}
-	else if (GetKeyState('D') & 0x8000) {
+	else if ((GetKeyState('D') & 0x8000) || (GetKeyState(VK_RIGHT) & 0x8000)) {
 		if (topRightVertex.X < 1.0f) {
 			//move right
 			topLeftVertex.X += xSpeed;
