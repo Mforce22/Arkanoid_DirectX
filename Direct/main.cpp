@@ -286,9 +286,12 @@ void RenderFrame(void)
         ResetGame();
 	}
 
-    /*if (GetKeyState('R') & 0x8000) {
+    if (GetKeyState('R') & 0x8000) {
 		ResetGame();
-	}*/
+	}
+    if (GetKeyState(VK_ESCAPE) & 0x8000) {
+        alive = false;
+    }
 
     // draw the vertex buffer to the back buffer
     //devcon->Draw(totalVertex, 0);
