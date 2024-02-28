@@ -12,5 +12,8 @@ to restart the game
 **ESC**
 to exit the game
 
+
+
 **RULES**
+
 Destroy all the blocks to win the game and start a new one. If the ball falls you lose the game
