@@ -246,7 +246,7 @@ void RenderFrame(void)
     alive = !ball->Update();
     racket ->Update();
 
-    ball->CheckCollision(racket->GetTopLeftVertex(), racket->GetTopRightVertex(), racket->GetBottomLeftVertex(), racket->GetBottomRightVertex());
+    ball->CheckRacketCollision(racket->GetTopLeftVertex(), racket->GetTopRightVertex(), racket->GetBottomLeftVertex(), racket->GetBottomRightVertex());
 
     //update the graphics
     UpdateGraphics();

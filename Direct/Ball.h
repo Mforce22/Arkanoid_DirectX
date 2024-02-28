@@ -20,6 +20,8 @@ public:
 	void SetYSpeed(float ySpeed);
 
 	bool CheckCollision(VERTEX boxTopLeftVertex, VERTEX boxTopRightVertex, VERTEX boxBottomLeftVertex, VERTEX boxBottomRightVertex);
+	bool CheckRacketCollision(VERTEX boxTopLeftVertex, VERTEX boxTopRightVertex, VERTEX boxBottomLeftVertex, VERTEX boxBottomRightVertex);
+	void CheckRacketCollisionPoint(VERTEX boxTopLeftVertex, VERTEX boxTopRightVertex);
 	
 	
 private:

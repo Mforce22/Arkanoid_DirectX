@@ -124,3 +124,50 @@ bool Ball::CheckCollision(VERTEX boxTopLeftVertex, VERTEX boxTopRightVertex, VER
 	return false;
 
 }
+
+bool Ball::CheckRacketCollision(VERTEX boxTopLeftVertex, VERTEX boxTopRightVertex, VERTEX boxBottomLeftVertex, VERTEX boxBottomRightVertex) {
+	//check collision. if the collision is detected on the left the ball will go to the left and change y direction
+	// if it is detected on the right the ball will go to the right and up and change y direction,
+	// if it's on the middle the ball will only change y direction
+
+	if (topLeftVertex.Y >= boxBottomLeftVertex.Y && topLeftVertex.Y <= boxTopLeftVertex.Y && topLeftVertex.X >= boxTopLeftVertex.X && topLeftVertex.X <= boxTopRightVertex.X && ySpeed > 0) {
+		ySpeed = -ySpeed;
+		CheckRacketCollisionPoint(boxTopLeftVertex, boxTopRightVertex);
+		return true;
+	}
+	else if (topRightVertex.Y >= boxBottomRightVertex.Y && topRightVertex.Y <= boxTopRightVertex.Y && topRightVertex.X >= boxTopLeftVertex.X && topRightVertex.X <= boxTopRightVertex.X && ySpeed > 0) {
+		ySpeed = -ySpeed;
+		CheckRacketCollisionPoint(boxTopLeftVertex, boxTopRightVertex);
+		return true;
+	}
+	else if (bottomLeftVertex.Y <= boxTopLeftVertex.Y && bottomLeftVertex.Y >= boxBottomLeftVertex.Y && bottomLeftVertex.X >= boxTopLeftVertex.X && bottomLeftVertex.X <= boxTopRightVertex.X && ySpeed < 0) {
+		ySpeed = -ySpeed;
+		CheckRacketCollisionPoint(boxTopLeftVertex, boxTopRightVertex);
+		return true;
+	}
+	else if (bottomRightVertex.Y <= boxTopRightVertex.Y && bottomRightVertex.Y >= boxBottomRightVertex.Y && bottomRightVertex.X >= boxTopLeftVertex.X && bottomRightVertex.X <= boxTopRightVertex.X && ySpeed < 0) {
+		ySpeed = -ySpeed;
+		CheckRacketCollisionPoint(boxTopLeftVertex, boxTopRightVertex);
+		return true;
+	}
+
+	return false;
+
+}
+
+
+void Ball::CheckRacketCollisionPoint(VERTEX boxTopLeftVertex, VERTEX boxTopRightVertex) {
+
+	//divide boxTopLeftVertex and boxTopRightVertex into 3 parts
+	float leftPart = boxTopLeftVertex.X + (boxTopRightVertex.X - boxTopLeftVertex.X) / 3;
+	float rightPart = boxTopLeftVertex.X + (boxTopRightVertex.X - boxTopLeftVertex.X) * 2 / 3;
+
+	//check if the ball is in the left part
+	if (topLeftVertex.X <= leftPart && topRightVertex.X <= leftPart && xSpeed >= 0) {
+		xSpeed = -xSpeed;
+	}
+	//check if the ball is in the right part
+	else if (topLeftVertex.X >= rightPart && topRightVertex.X >= rightPart && xSpeed <= 0) {
+		xSpeed = -xSpeed;
+	}
+}
